@@ -1,0 +1,69 @@
+train_new <- read.csv("C:/Users/asif/Downloads/train_new.csv",header=T)
+head(train_new)
+str(train_new)
+colSums(is.na(train_new))
+train_new$Id<-NULL
+dim(train_new)
+summary(train_new)
+boxplot(train_new$SalePrice)
+sum(is.na(train_new))/((nrow(train_new)*ncol(train_new)))*100 # to check sum of na values in percentage
+nrow(unique(train_new))
+library(class)
+library(DMwR)
+library(lattice)
+library(grid)
+train_new1<-train_new
+library("dplyr")
+nums<-select_if(train_new,is.numeric)
+length(nums)
+factor<-select_if(train_new,is.factor)
+length(factor)
+cor_mat_try<-cor(nums)
+cor(train_new$LotFrontage,train_new$SalePrice)
+cor_mat_try1<-data.frame(cor_mat_try)
+cor_dep_var<-cor_mat_try1[,"SalePrice"]
+x<-data.frame(names(nums),cor_dep_var)
+imp_var<-subset(x,x$cor_dep_var>0.3 | x$cor_dep_var< -(0.3))
+imp_var
+dim(imp_var)
+str(train_new)
+house_new_train<-subset(train_new,select = names(factor))
+dim(house_new_train)
+imp_var<-data.frame(imp_var)
+num_input_data<-subset(train_new,select= imp_var[,1])
+dim(num_input_data)
+house2<-cbind(factor,num_input_data)
+dim(house2)
+colSums(is.na(house2))
+house2$PoolQC<-NULL
+house2$Fence<-NULL
+house2$MiscFeature<-NULL
+house2$FireplaceQu<-NULL
+house2$Alley<-NULL
+dim(house2)
+house2<-knnImputation(house2[,names(house2)])
+colSums(is.na(house2))
+summary(factor)
+house2$Street<-NULL
+house2$Utilities<-NULL
+house2$Condition1<-NULL
+house2$RoofMatl<-NULL
+house2$Heating<-NULL
+house2$CentralAir<-NULL
+house2$GarageCond<-NULL
+house2$GarageQual<-NULL
+house2$LandSlope<-NULL
+dim(house2)
+colSums(is.na(house2))
+dim(house2)
+write.csv(house2,file="house_knn.csv")
+str(house2)
+# Linear Mod
+house2$SalePrice<-train_new$SalePrice
+Full_model_mobile<-lm(SalePrice~.,data=house2)
+str(house2)
+install.packages("tabplot")
+library(tabplot)
+library(bit)
+data(iris)
+tableplot(iris)
