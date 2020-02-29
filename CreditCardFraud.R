@@ -1,3 +1,4 @@
+
 #Getting the data and loading the data into RStudio Platform 
 creditfraud_data<-read.csv("C:/Users/asif/Downloads/creditcard.csv",header=T)
 dim(creditfraud_data)
@@ -36,9 +37,9 @@ library(class)
 #Here the depedent variable is status[0 for non-fraud and 1 for fraud]
 knn_fraud_model<-knn(training_fraud,testing_fraud,k=sqrt(nrow(training_fraud)),cl=ytrain)
 table(predict=knn_fraud_model,actual=ytest)
-(996+167)/1599 # accuracy
-167/(167+344) # sensitivity
-92/(92+966) # specificity
+(1019+150)/1599 # accuracy
+150/(150+361) # sensitivity
+69/(69+1010) # specificity
 # Decision Trees-It is the best algorithm for this dataset
 library(rpart)
 library(rpart.plot)
@@ -47,6 +48,6 @@ plot.new()
 rpart.plot(creditcardFraud_tree)
 creditFraud_pred<-predict(creditcardFraud_tree,newCreditFraud_Data,type="class")
 table(predicted=creditFraud_pred,actual=newCreditFraud_Data$Class)
-(4388+1675)/6396 # accuracy
-1675/(1675+293) # sensitivity
-4388/(40+4388) # specificity
+(4367+1739)/6396 # accuracy
+1739/(1739+229) # sensitivity
+4388/(61+4388) # specificity

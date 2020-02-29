@@ -64,7 +64,7 @@ View(adult_salary$native.country)
 str(adult_salary)
 names<-c("workclass","education","marital.status","occupation","race","native.country")
 adult_salary[,names]<-lapply(adult_salary[,names],as.factor)
-write.csv(adult_salary,file="adult_salary.csv")
+write.csv(adult_salary,file="adult_salary3.csv")
 #LoGISTIC REgression
 #PROBABILITY
 #ODD
@@ -97,7 +97,7 @@ table(predicted=training_income$income,actual=training_income$pred_income)
 3336/(3336+1407) # sensitivity
 17208/(17208+2471) # specificity
 dim(adult_salary)
-misclassification<-1-accuracy
+#misclassification<-1-accuracy
 #take threshold as 0.1 and generate table 1 is high
 # take threshold as 0.9 and generate table 0 is high
 training_income$pred_income<-ifelse(training_income$pred_prob>=0.1,"1","0")
@@ -145,3 +145,9 @@ table(predicted=pred_tree,actual=training_income$income)
 (17472+2961)/32561 #accuracy
 2961/(2961+2925) # sensitivity
 17472/(17472+1064) # specificity
+library(DMwR)
+newAdultSalary<- SMOTE(income~.,adult_salary, perc.over=50, perc.under=50,k=3)
+str(newAdultSalary)
+colSums(is.na(newAdultSalary))
+dim(newAdultSalary)
+
